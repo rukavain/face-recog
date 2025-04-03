@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
     $stmt->execute(['email' => $email]);
     $user = $stmt->fetch();
 
-  
+
     if ($user && password_verify($password, $user['password'])) {
 
         $_SESSION['user'] = [
@@ -88,10 +88,9 @@ function display_error($error, $is_main = false)
         <form method="POST" action="">
             <div class="input-group">
                 <i class="fas fa-times"></i>
-
                 <select name="user_type" id="" required>
                     <option value="">Select User</option>
-                    <option value="lecture">Lecture</option>
+                    <option value="lecture">Employee</option>
                     <option value="administrator">Admin</option>
                 </select>
             </div>

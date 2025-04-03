@@ -49,6 +49,7 @@ if (!empty($unitCode)) {
     <section class="main">
         <?php include 'includes/sidebar.php'; ?>
         <div class="main--content">
+
             <form class="lecture-options" id="selectForm">
                 <select required name="course" id="courseSelect" onChange="updateTable()">
                     <option value="" selected>Select Course</option>
@@ -70,8 +71,16 @@ if (!empty($unitCode)) {
                     ?>
                 </select>
             </form>
-
-            <button class="add" onclick="exportTableToExcel('attendaceTable', '<?php echo $unitCode ?>_on_<?php echo date('Y-m-d'); ?>','<?php echo $coursename ?>', '<?php echo $unitname ?>')">Export Attendance As Excel</button>
+            <div style="display:flex; justify-content:space-between; align-items:center; padding: 20px 0px;">
+                <button class="add" onclick="exportTableToExcel('attendaceTable', '<?php echo $unitCode ?>_on_<?php echo date('Y-m-d'); ?>','<?php echo $coursename ?>', '<?php echo $unitname ?>')">Export Attendance As Excel</button>
+                <select name="date" id="date" class="dropdown">
+                    <option value="today">Today</option>
+                    <option value="lastweek">Last Week</option>
+                    <option value="lastmonth">Last Month</option>
+                    <option value="lastyear">Last Year</option>
+                    <option value="alltime">All Time</option>
+                </select>
+            </div>
 
             <div class="table-container">
                 <div class="title">
@@ -90,8 +99,8 @@ if (!empty($unitCode)) {
                         </thead>
                         <tbody id="studentTableBody">
                             <?php
-                            
-                                $query = "SELECT
+
+                            $query = "SELECT
                                 s.registrationNumber as number,
                                 a.date_created as date,
                                 a.time_in as time_in,
@@ -101,19 +110,19 @@ if (!empty($unitCode)) {
                                 tblattendance a ON a.course = s.courseCode
                                 ";
 
-                                $stmt = $pdo->prepare($query);
-                                $stmt->execute();
-                                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                            $stmt = $pdo->prepare($query);
+                            $stmt->execute();
+                            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-                                foreach($result as $row):
-                            
+                            foreach ($result as $row):
+
                             ?>
-                            <tr>
-                                <td><?= $row["number"] ?></td>
-                                <td><?= gmdate("h:i:s A", strtotime($row["time_in"])) ?></td>
-                                <td><?= $row["time_out"] !== null ? gmdate("h:i:s A", strtotime($row["time_out"])) : "------------" ?></td>
-                                
-                                <?php 
+                                <tr>
+                                    <td><?= $row["number"] ?></td>
+                                    <td><?= gmdate("h:i:s A", strtotime($row["time_in"])) ?></td>
+                                    <td><?= $row["time_out"] !== null ? gmdate("h:i:s A", strtotime($row["time_out"])) : "------------" ?></td>
+
+                                    <?php
 
                                     if ($row["time_out"] !== null) {
 
@@ -126,14 +135,14 @@ if (!empty($unitCode)) {
                                         $total_time_worked = $diff->format('%H:%I:%S');
 
                                         echo '<td>' . htmlspecialchars($total_time_worked) . '</td>';
-                                    }else{
+                                    } else {
                                         echo '<td>------------</td>';
                                     }
 
-                                ?>
+                                    ?>
 
-                                <td style="<?= $row["status"] === "present" ? 'color: green' : 'color:red' ?>"><?= ucfirst($row["status"]) ?></td>
-                            </tr>
+                                    <td style="<?= $row["status"] === "present" ? 'color: green' : 'color:red' ?>"><?= ucfirst($row["status"]) ?></td>
+                                </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
