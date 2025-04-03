@@ -19,8 +19,8 @@ try {
         throw new Exception('Invalid JSON data received');
     }
     
-    if (empty($data['courseCode'])) {
-        throw new Exception('Course code is required');
+    if (empty($data['courseCode']) || empty($data["unitCode"]) || empty($data["venue"])) {
+        throw new Exception('All fields is required to update the time out');
     }
     
     // Update query for tblattendance

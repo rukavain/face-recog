@@ -166,7 +166,7 @@ function filter_date($filter, $date, $date1){
     a.time_out as time_out,
     a.attendanceStatus
     FROM tblstudents s
-    LEFT JOIN tblattendance a ON a.studentRegistrationNumber = s.registrationNumber";
+    INNER JOIN tblattendance a ON a.studentRegistrationNumber = s.registrationNumber";
 
 
     switch($filter){

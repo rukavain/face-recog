@@ -244,14 +244,17 @@ document.getElementById("endAttendance").addEventListener("click", function () {
 
 
 document.getElementById("endButton").addEventListener("click", function() {
-  const courseCode = document.getElementById("courseSelect").value; // Get course code from your UI
+  //input value from the
+  const courseCode = document.getElementById("courseSelect").value;
+  const unitCode = document.getElementById("unitSelect").value;
+  const venue = document.getElementById("venueSelect").value;
   
   fetch("handle_out_attendance", {
       method: "POST",
       headers: {
           "Content-Type": "application/json",
       },
-      body: JSON.stringify({ courseCode: courseCode })
+      body: JSON.stringify({ courseCode: courseCode, unitCode: unitCode, venue: venue })
   })
   .then(response => {
       if (!response.ok) {
@@ -263,9 +266,9 @@ document.getElementById("endButton").addEventListener("click", function() {
       console.log("Success:", data);
       showMessage(data.message || "Attendance recorded successfully!");
       
-      // Optional: Update UI based on updatedCount
+      //optional: Update UI based on updatedCount
       if (data.updatedCount > 0) {
-          // Refresh attendance list or update indicators
+          
       }
   })
   .catch(error => {
