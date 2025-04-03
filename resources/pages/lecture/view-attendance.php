@@ -71,17 +71,29 @@ if (!empty($unitCode)) {
                     ?>
                 </select>
             </form>
-            <div style="display:flex; justify-content:space-between; align-items:center; padding: 20px 0px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; padding: 20px 0px; ">
                 <button class="add" onclick="exportTableToExcel('attendaceTable', '<?php echo $unitCode ?>_on_<?php echo date('Y-m-d'); ?>','<?php echo $coursename ?>', '<?php echo $unitname ?>')">Export Attendance As Excel</button>
-                <select name="date" id="date" class="dropdown">
-                    <option value="today">Today</option>
-                    <option value="lastweek">Last Week</option>
-                    <option value="lastmonth">Last Month</option>
-                    <option value="lastyear">Last Year</option>
-                    <option value="alltime">All Time</option>
-                </select>
+                <div style="display:flex; gap:10px; justify-content:center; align-items:center;">
+                    <div style="padding:10px 14px; display:flex; gap:14px; justify-content:space-between; align-items:center; gap: 10px; flex-direction:row; min-width:max-content;">
+                        <div style=" display:flex; justify-content:space-between; align-items:center; gap: 10px;  min-width:max-content;">
+                            <p style="font-size:14px; margin-inline: 10px;">Start date:</p>
+                            <input style="cursor:pointer; border-style:none; padding:10px 14px; border-style: 1px solid gray; border-radius:10px; background-color:#dfe9f5;" type="date">
+                            <p style="font-size:14px; margin-inline: 10px;">Start date:</p>
+                            <input style="cursor:pointer; border-style:none; padding:10px 14px; border-style: 1px solid gray; border-radius:10px; background-color:#dfe9f5;" type="date">
+                        </div>
+                        <button style="padding:10px 14px; border-style: none; cursor:pointer; border-radius:10px; background-color:#90f689;">
+                            Filter
+                        </button>
+                    </div>
+                    <select style="max-height:max-content; padding:10px 14px; cursor:pointer; border-radius:10px; background-color:#dfe9f5;" name="date" id="date" class="dropdown">
+                        <option value="today">Today</option>
+                        <option value="lastweek">Last Week</option>
+                        <option value="lastmonth">Last Month</option>
+                        <option value="lastyear">Last Year</option>
+                        <option value="alltime">All Time</option>
+                    </select>
+                </div>
             </div>
-
             <div class="table-container">
                 <div class="title">
                     <h2 class="section--title">Attendance Preview</h2>

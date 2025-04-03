@@ -73,7 +73,7 @@
                                     echo "<td>" . $row["faculty"] . "</td>";
                                     echo "<td>" . $row["courseCode"] . "</td>";
                                     echo "<td>" . ucfirst($row["email"]) . "</td>";
-                                    echo "<td><span><i class='ri-delete-bin-line delete' data-id='{$row["Id"]}' data-name='students'></i></span></td>";
+                                    echo "<td><span><i class='ri-delete-bin-line delete' data-id='{$row["Id"]}' data-name='students'></i></span><a href='employee-details'><i class='ri-eye-line' style='color:black' data-id='{$row["Id"]}' data-name='students'></i></a></td>";
                                     echo "</tr>";
                                 }
                             } else {
