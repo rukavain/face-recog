@@ -13,19 +13,6 @@
                 <span class="sidebar--item" style="white-space: nowrap;">View Attendance</span>
             </a>
         </li>
-        <li>
-            <a href="view-students">
-                <span class="icon icon-1"><i class="ri-user-line"></i></span>
-                <span class="sidebar--item">Students</span>
-            </a>
-        </li>
-        <li>
-            <a href="download-record">
-                <span class="icon icon-1"><i class="ri-user-line"></i></span>
-                <span class="sidebar--item">Download Attendance</span>
-            </a>
-        </li>
-
     </ul>
     <ul class="sidebar--bottom-items">
         <li>

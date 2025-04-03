@@ -82,71 +82,34 @@ if (!empty($unitCode)) {
                         <thead>
                             <tr>
                                 <th>Registration No</th>
-                                <?php
-                                // Fetch distinct dates for the selected course and unit
-                                $distinctDatesQuery = "SELECT DISTINCT dateMarked FROM tblattendance WHERE course = :courseCode AND unit = :unitCode";
-                                $stmtDates = $pdo->prepare($distinctDatesQuery);
-                                $stmtDates->execute([
-                                    ':courseCode' => $courseCode,
-                                    ':unitCode' => $unitCode,
-                                ]);
-                                $distinctDatesResult = $stmtDates->fetchAll(PDO::FETCH_ASSOC);
-
-                                // Display each distinct date as a column header
-                                if ($distinctDatesResult) {
-                                    foreach ($distinctDatesResult as $dateRow) {
-                                        echo "<th>" . $dateRow['dateMarked'] . "</th>";
-                                    }
-                                }
-                                ?>
+                                <th>Time in</th>
+                                <th>Time out</th>
+                                <th>Total Hours</th>
+                                <th>Date</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <?php
-                            // Fetch all unique students for the given course and unit
-                            $studentsQuery = "SELECT DISTINCT studentRegistrationNumber FROM tblattendance WHERE course = :courseCode AND unit = :unitCode";
-                            $stmtStudents = $pdo->prepare($studentsQuery);
-                            $stmtStudents->execute([
-                                ':courseCode' => $courseCode,
-                                ':unitCode' => $unitCode,
-                            ]);
-                            $studentRows = $stmtStudents->fetchAll(PDO::FETCH_ASSOC);
-
-                            // Display each student's attendance row
-                            foreach ($studentRows as $row) {
-                                echo "<tr>";
-                                echo "<td>" . $row['studentRegistrationNumber'] . "</td>";
-
-                                // Loop through each date and fetch the attendance status for the student
-                                foreach ($distinctDatesResult as $dateRow) {
-                                    $date = $dateRow['dateMarked'];
-
-                                    // Fetch attendance for the current student and date
-                                    $attendanceQuery = "SELECT attendanceStatus FROM tblattendance 
-                                    WHERE studentRegistrationNumber = :studentRegistrationNumber 
-                                    AND dateMarked = :date 
-                                    AND course = :courseCode 
-                                    AND unit = :unitCode";
-                                    $stmtAttendance = $pdo->prepare($attendanceQuery);
-                                    $stmtAttendance->execute([
-                                        ':studentRegistrationNumber' => $row['studentRegistrationNumber'],
-                                        ':date' => $date,
-                                        ':courseCode' => $courseCode,
-                                        ':unitCode' => $unitCode,
-                                    ]);
-                                    $attendanceResult = $stmtAttendance->fetch(PDO::FETCH_ASSOC);
-
-                                    // Display attendance status or default to "Absent"
-                                    if ($attendanceResult) {
-                                        echo "<td>" . $attendanceResult['attendanceStatus'] . "</td>";
-                                    } else {
-                                        echo "<td>Absent</td>";
-                                    }
-                                }
-
-                                echo "</tr>";
-                            }
-                            ?>
+                        <tbody id="studentTableBody">
+                            <tr>
+                                <td>CS101-001</td>
+                                <td>John</td>
+                                <td>Doe</td>
+                                <td>john.doe@example.com</td>
+                                <td>Absent</td>
+                            </tr>
+                            <tr>
+                                <td>CS101-002</td>
+                                <td>Jane</td>
+                                <td>Smith</td>
+                                <td>jane.smith@example.com</td>
+                                <td>Absent</td>
+                            </tr>
+                            <tr>
+                                <td>CS101-003</td>
+                                <td>Mike</td>
+                                <td>Johnson</td>
+                                <td>mike.johnson@example.com</td>
+                                <td>Absent</td>
+                            </tr>
                         </tbody>
                     </table>
 
@@ -214,5 +177,6 @@ if (!empty($unitCode)) {
         return buf;
     }
 </script>
+
 
 </html>

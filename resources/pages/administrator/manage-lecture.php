@@ -76,8 +76,8 @@ if (isset($_POST["addLecture"])) {
             <?php showMessage() ?>
             <div class="table-container">
                 <div class="title" id="showButton">
-                    <h2 class="section--title">Lectures</h2>
-                    <button class="add"><i class="ri-add-line"></i>Add lecture</button>
+                    <h2 class="section--title">Employees</h2>
+                    <button class="add"><i class="ri-add-line"></i>Add Employee</button>
                 </div>
                 <div class="table">
                     <table>
@@ -104,7 +104,7 @@ if (isset($_POST["addLecture"])) {
                                         echo "<td>" . $row["phoneNo"] . "</td>";
                                         echo "<td>" . $row["facultyCode"] . "</td>";
                                         echo "<td>" . $row["dateCreated"] . "</td>";
-                                        echo "<td><span><i class='ri-delete-bin-line delete' data-id='{$row["Id"]}' data-name='lecture'></i></span></td>";
+                                        echo "<td><span><i class='ri-delete-bin-line delete' data-id='{$row["Id"]}' data-name='lecture'></i></span><a href='employee-details'><i class='ri-eye-line' data-id='{$row["Id"]}' data-name='lecture'></i></a></td>";
                                         echo "</tr>";
                                     }
                                 } else {
@@ -117,11 +117,11 @@ if (isset($_POST["addLecture"])) {
                     </table>
                 </div>
             </div>
-            <div class="formDiv--" id="form" style="display:none; ">
+            <div class="formDiv--" id="form" style="display:none;">
                 <form method="POST" action="" name="addLecture" enctype="multipart/form-data">
                     <div style="display:flex; justify-content:space-around;">
                         <div class="form-title">
-                            <p>Add Lecture</p>
+                            <p>Add Employee</p>
                         </div>
                         <div>
                             <span class="close">&times;</span>
