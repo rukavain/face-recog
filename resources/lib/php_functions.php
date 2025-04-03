@@ -142,3 +142,91 @@ function js_asset($links = [])
         }
     }
 }
+
+
+function get_employee_by_id($id) {
+
+    $employeeRows = [];
+
+    $query = "SELECT * FROM employee WHERE id= '$id'";
+    $result = fetch($query);
+
+    if($result){
+        foreach($result as $row){
+            $employeeRows = $row;
+        }
+    }
+
+    return $employeeRows;
+}
+
+function get_fullname($id){
+    global $pdo;
+    $stmt = $pdo->prepare("SELECT firstName, lastName from employee WHERE id=:id");
+    $stmt->bindParam(":id", $id);
+    $stmt->execute();
+    $result = $stmt->fetch();
+    return ucfirst($result["firstName"]). ' ' .ucfirst($result["lastName"]);
+}
+
+function filter_date($filter, $date, $date1, $id){
+
+    $employees = [];
+
+    global $pdo;
+
+    //default query with no filter
+    $query = "SELECT
+        etr.employee_id,
+        e.id,
+        e.firstName,
+        e.Lastname,
+        e.dateCreated,
+        etr.date_created,
+        DATE(etr.time_in) as date,
+        etr.time_in,
+        etr.time_out
+        FROM employee_time_records etr
+        LEFT JOIN employee e ON e.id = etr.employee_id
+        WHERE e.id = :employee_id";
+
+
+    switch($filter){
+        case "day":
+            $startDate = $date;
+            $endDate = $date1;
+            $query .= " AND DATE(time_in) BETWEEN :startDate AND :endDate";
+        break;
+        case "week":
+            $startDate = date('Y-m-d', strtotime('monday this week', strtotime($date)));
+            $endDate = date('Y-m-d', strtotime('sunday this week', strtotime($date1)));
+            $query .= " AND DATE(time_in) BETWEEN :startDate AND :endDate";
+        break;
+        case "month":
+            $startDate = date('Y-m-d', strtotime('first day of this month', strtotime($date)));
+            $endDate = date('Y-m-d', strtotime('last day of this month', strtotime($date1)));
+            $query .= " AND DATE(time_in) BETWEEN :startDate AND :endDate";
+        break;
+        
+    }
+
+    $stmt = $pdo->prepare($query);
+
+    $stmt->bindParam(":employee_id", $id);
+    if(isset($startDate)) $stmt->bindParam(":startDate", $startDate);
+    if(isset($endDate)) $stmt->bindParam(":endDate", $endDate);
+
+    $stmt->execute();
+
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    if($result){
+        foreach($result as $row){
+            $employees[] = $row;
+        }
+    }
+
+    return $employees;
+
+}
+

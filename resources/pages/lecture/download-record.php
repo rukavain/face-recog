@@ -144,7 +144,7 @@ if (!empty($unitCode)) {
 
                                     // Display attendance status or default to "Absent"
                                     if ($attendanceResult) {
-                                        echo "<td>" . $attendanceResult['attendanceStatus'] . "</td>";
+                                        echo '<td style="'.($attendanceResult['attendanceStatus'] === "present" ? 'color: green' : 'color:red').'"> '.ucfirst($attendanceResult['attendanceStatus']).' </td>';
                                     } else {
                                         echo "<td>Absent</td>";
                                     }

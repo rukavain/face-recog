@@ -187,7 +187,7 @@ if (isset($_POST["addFaculty"])) {
                         c.dateCreated AS date_created
                         FROM tblcourse c
                         LEFT JOIN tblunit u ON c.Id = u.courseID
-                        LEFT JOIN tblstudents s ON c.courseCode = s.courseCode
+                        LEFT JOIN tblstudents  s ON c.courseCode = s.courseCode
                         LEFT JOIN tblfaculty f on c.facultyID=f.Id
                         GROUP BY c.Id";
 

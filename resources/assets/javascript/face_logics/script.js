@@ -239,3 +239,35 @@ document.getElementById("endAttendance").addEventListener("click", function () {
   videoContainer.style.display = "none";
   stopWebcam();
 });
+
+
+document.getElementById("endButton").addEventListener("click", function() {
+  const courseCode = document.getElementById("courseSelect").value; // Get course code from your UI
+  
+  fetch("handle_out_attendance", {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ courseCode: courseCode })
+  })
+  .then(response => {
+      if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+  })
+  .then(data => {
+      console.log("Success:", data);
+      showMessage(data.message || "Attendance recorded successfully!");
+      
+      // Optional: Update UI based on updatedCount
+      if (data.updatedCount > 0) {
+          // Refresh attendance list or update indicators
+      }
+  })
+  .catch(error => {
+      console.error("Error:", error);
+      showMessage(error.message || "Failed to record attendance");
+  });
+});

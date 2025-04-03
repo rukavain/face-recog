@@ -7,9 +7,9 @@
             </a>
         </li>
         <li>
-            <a href="manage-lecture">
+        <a href="manage-students">
                 <span class="icon icon-1"><i class="ri-user-line"></i></span>
-                <span class="sidebar--item">manage lectures</span>
+                <span class="sidebar--item">Manage Employee</span>
             </a>
         </li>
     </ul>

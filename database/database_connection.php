@@ -3,7 +3,7 @@
 $host = "localhost";
 
 //your database name
-$database = "face";
+$database = "attendance-db";
 
 //database user which by default is root unless you have configured with another name
 $user = "root";

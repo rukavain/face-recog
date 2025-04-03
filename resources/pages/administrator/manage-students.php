@@ -91,8 +91,8 @@ if (isset($_POST['addStudent'])) {
             <div class="table-container">
 
                 <div class="title" id="showButton">
-                    <h2 class="section--title">Students</h2>
-                    <button class="add"><i class="ri-add-line"></i>Add Student</button>
+                    <h2 class="section--title">Employee</h2>
+                    <button class="add"><i class="ri-add-line"></i>Add Employee</button>
                 </div>
 
                 <div class="table">

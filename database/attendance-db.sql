@@ -54,7 +54,10 @@ CREATE TABLE `tblattendance` (
   `course` varchar(100) NOT NULL,
   `attendanceStatus` varchar(100) NOT NULL,
   `dateMarked` date NOT NULL,
-  `unit` varchar(100) NOT NULL
+  `unit` varchar(100) NOT NULL,
+  `time_in` DATETIME NOT NULL,
+  `time_out` DATETIME NULL,
+  `date_created` TIMESTAMP NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -140,6 +143,16 @@ CREATE TABLE `tblstudents` (
   `dateRegistered` varchar(50) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+
+-- CREATE TABLE `time_records` (
+--   `Id` int(10) NOT NULL AUTO_INCREMENT,
+--   `student_id` int(10) NOT NULL,
+--   `time_in` DATETIME NOT NULL,
+--   `time_out` DATETIME NULL,
+--   `date_created` TIMESTAMP NOT NULL,
+--   PRIMARY KEY(`Id`),
+--   FOREIGN KEY(`student_id`) REFERENCES tblstudents(`Id`)
+-- ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 -- --------------------------------------------------------
 
 --

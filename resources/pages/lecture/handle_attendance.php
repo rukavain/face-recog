@@ -6,8 +6,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($attendanceData) {
         try {
-            $sql = "INSERT INTO tblattendance (studentRegistrationNumber, course, unit, attendanceStatus, dateMarked)  
-                VALUES (:studentID, :course, :unit, :attendanceStatus, :date)";
+            $sql = "INSERT INTO tblattendance (studentRegistrationNumber, course, unit, attendanceStatus, dateMarked, time_in, date_created)  
+                VALUES (:studentID, :course, :unit, :attendanceStatus, :date, NOW(), NOW())";
 
             $stmt = $pdo->prepare($sql);
 

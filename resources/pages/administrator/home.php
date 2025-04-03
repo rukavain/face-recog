@@ -32,7 +32,7 @@
                         <div class="card--data">
                             <div class="card--content">
                                 <h5 class="card--title">Registered Employees</h5>
-                                <h1><?php total_rows('tbllecture') ?></h1>
+                                <h1><?php total_rows('tblstudents') ?></h1>
                             </div>
                             <i class="ri-user-line card--icon--lg"></i>
                         </div>
@@ -42,9 +42,9 @@
             </div>
 
             <div class="table-container">
-                <a href="manage-lecture" style="text-decoration:none;">
+                <a href="manage-students" style="text-decoration:none;">
                     <div class="title">
-                        <h2 class="section--title">Employees</h2>
+                        <h2 class="section--title">Employee</h2>
                         <button class="add"><i class="ri-add-line"></i>Add Employee</button>
                     </div>
                 </a>
@@ -52,42 +52,40 @@
                     <table>
                         <thead>
                             <tr>
+                                <th>Registration No</th>
                                 <th>Name</th>
-                                <th>Email Address</th>
-                                <th>Phone No</th>
                                 <th>Faculty</th>
-                                <th>Date Registered</th>
+                                <th>Course</th>
+                                <th>Email</th>
                                 <th>Settings</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <?php
-                                $sql = "SELECT l.*, f.facultyName
-                         FROM tbllecture l
-                         LEFT JOIN tblfaculty f ON l.facultyCode = f.facultyCode";
-
-                                $stmt = $pdo->query($sql);
-                                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                                if ($result) {
-                                    foreach ($result as $row) {
-                                        echo "<tr id='rowlecture{$row["Id"]}'>";
-                                        echo "<td>" . $row["firstName"] . "</td>";
-                                        echo "<td>" . $row["emailAddress"] . "</td>";
-                                        echo "<td>" . $row["phoneNo"] . "</td>";
-                                        echo "<td>" . $row["facultyName"] . "</td>";
-                                        echo "<td>" . $row["dateCreated"] . "</td>";
-                                        echo "<td><span><i class='ri-delete-bin-line delete' data-id='{$row["Id"]}' data-name='lecture'></i></span><a href='employee-details'><i class='ri-eye-line' data-id='{$row["Id"]}' data-name='lecture'></i></a></td>";
-                                        echo "</tr>";
-                                    }
-                                } else {
-                                    echo "<tr><td colspan='6'>No records found</td></tr>";
+                            <?php
+                            $sql = "SELECT * FROM tblstudents";
+                            $stmt = $pdo->query($sql);
+                            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                            if ($result) {
+                                foreach ($result as $row) {
+                                    echo "<tr id='rowstudents{$row["Id"]}'>";
+                                    echo "<td>" . $row["registrationNumber"] . "</td>";
+                                    echo "<td>" . ucfirst($row["firstName"]) . "</td>";
+                                    echo "<td>" . $row["faculty"] . "</td>";
+                                    echo "<td>" . $row["courseCode"] . "</td>";
+                                    echo "<td>" . ucfirst($row["email"]) . "</td>";
+                                    echo "<td><span><i class='ri-delete-bin-line delete' data-id='{$row["Id"]}' data-name='students'></i></span></td>";
+                                    echo "</tr>";
                                 }
-                                ?>
+                            } else {
+                                echo "<tr><td colspan='6'>No records found</td></tr>";
+                            }
+
+                            ?>
 
                         </tbody>
                     </table>
                 </div>
+
             </div>
 
         </div>

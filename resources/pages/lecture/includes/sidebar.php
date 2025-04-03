@@ -13,6 +13,8 @@
                 <span class="sidebar--item" style="white-space: nowrap;">View Attendance</span>
             </a>
         </li>
+
+
     </ul>
     <ul class="sidebar--bottom-items">
         <li>
