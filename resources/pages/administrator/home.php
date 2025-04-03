@@ -1,3 +1,10 @@
+<?php 
+$filter = $_GET["filter"] ?? null;
+$date = $_GET["start_date"] ?? date('Y-m-d');
+$date1 = $_GET["end_date"] ?? date('Y-m-d');
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,13 +26,18 @@
             <div class="overview">
                 <div class="title">
                     <h2 class="section--title">Overview</h2>
-                    <select name="date" id="date" class="dropdown">
-                        <option value="today">Today</option>
-                        <option value="lastweek">Last Week</option>
-                        <option value="lastmonth">Last Month</option>
-                        <option value="lastyear">Last Year</option>
-                        <option value="alltime">All Time</option>
-                    </select>
+                    <form method="GET" id="filterForm" class="dropdown-form">
+                        <select name="filter" id="filter" class="dropdown" style="padding-block:12px;">
+                            <option value="day" <?= $filter === 'day' ? 'selected' : '' ?>>Day</option>
+                            <option value="week" <?= $filter === 'week' ? 'selected' : '' ?>>Week</option>
+                            <option value="month" <?= $filter === 'month' ? 'selected' : '' ?>>Month</option>
+                        </select>
+                        <label for="start_date" style="min-width:max-content;  font-size:14px; margin-inline: 10px;">Start Date:</label>
+                        <input type="date" name="start_date" id="start_date" value="<?= $date ?>" style="max-width:140px;">
+                        <label for="end_date" style="min-width:max-content; font-size:14px; margin-inline: 10px;">End Date:</label>
+                        <input type="date" name="end_date" id="end_date" value="<?= $date1 ?>" style="max-width:140px;">
+                        <button type="submit" id="filterButton" style="margin-inline: 10px; padding: 10px 20px; border-radius:4px; background-color: #4CAF50; color: white; border: none; cursor: pointer;">Filter</button>
+                    </form>
                 </div>
                 <div class="cards">
                     <div class="card card-1">
@@ -57,31 +69,49 @@
                                 <th>Faculty</th>
                                 <th>Course</th>
                                 <th>Email</th>
+                                <th>Time in</th>
+                                <th>Time out</th>
+                                <th>Total hours worked</th>
                                 <th>Settings</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            $sql = "SELECT * FROM tblstudents";
-                            $stmt = $pdo->query($sql);
-                            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                            if ($result) {
-                                foreach ($result as $row) {
-                                    echo "<tr id='rowstudents{$row["Id"]}'>";
-                                    echo "<td>" . $row["registrationNumber"] . "</td>";
-                                    echo "<td>" . ucfirst($row["firstName"]) . "</td>";
-                                    echo "<td>" . $row["faculty"] . "</td>";
-                                    echo "<td>" . $row["courseCode"] . "</td>";
-                                    echo "<td>" . ucfirst($row["email"]) . "</td>";
-                                    echo "<td><span><i class='ri-delete-bin-line delete' data-id='{$row["Id"]}' data-name='students'></i></span><a href='employee-details'><i class='ri-eye-line' style='color:black' data-id='{$row["Id"]}' data-name='students'></i></a></td>";
-                                    echo "</tr>";
-                                }
-                            } else {
-                                echo "<tr><td colspan='6'>No records found</td></tr>";
-                            }
+
+                            foreach (filter_date($filter, $date, $date1) as $row):
 
                             ?>
+                                <tr>
+                                    <td><?= $row["studentRegistrationNumber"] ?></td>
+                                    <td><?= ucfirst($row["firstName"]) . ' '. ucfirst($row["lastName"]) ?></td>
+                                    <td><?= $row["faculty"] ?></td>
+                                    <td><?= $row["courseCode"] ?></td>
+                                    <td><?= ucfirst($row["email"]) ?></td>
+                                    <td><?= gmdate("h:i:s A", strtotime($row["time_in"])) ?></td>
+                                    <td><?= $row["time_out"] !== null ? gmdate("h:i:s A", strtotime($row["time_out"])) : "------------" ?></td>
 
+                                    <?php
+
+                                    if ($row["time_out"] !== null) {
+
+                                        $time_in = new DateTime($row["time_in"]);
+                                        $time_out = new DateTime($row["time_out"]);
+
+                                        //calculate the difference
+                                        $diff = $time_out->diff($time_in);
+                                        //format as HH:MM:SS
+                                        $total_time_worked = $diff->format('%H:%I:%S');
+
+                                        echo '<td>' . htmlspecialchars($total_time_worked) . '</td>';
+                                    } else {
+                                        echo '<td>------------</td>';
+                                    }
+
+                                    ?>
+
+                                    <td style="<?= $row["attendanceStatus"] === "present" ? 'color: green' : 'color:red' ?>"><?= ucfirst($row["attendanceStatus"]) ?></td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>

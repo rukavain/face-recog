@@ -119,8 +119,7 @@ if (isset($_POST['addStudent'])) {
                                     echo "<td>" . $row["faculty"] . "</td>";
                                     echo "<td>" . $row["courseCode"] . "</td>";
                                     echo "<td>" . $row["email"] . "</td>";
-                                    echo "<td><span><i class='ri-delete-bin-line delete' data-id='{$row["Id"]}' data-name='students'></i></span>
-                                    <a href='employee-details'><i class='ri-eye-line' style='color:black' data-id='{$row["Id"]}' data-name='students'></i></a></td>";
+                                    echo "<td><span><i class='ri-delete-bin-line delete' data-id='{$row["Id"]}' data-name='students'></i></span></td>";
                                     echo "</tr>";
                                 }
                             } else {
@@ -148,10 +147,10 @@ if (isset($_POST['addStudent'])) {
                     <div>
                         <div>
                             <input type="text" name="firstName" placeholder="First Name">
-                            <input type="text" name="lastName" placeholder=" Last Name">
+                            <input type="text" name="lastName" " placeholder=" Last Name">
                             <input type="email" name="email" placeholder="Email Address">
                             <input type="text" required id="registrationNumber" name="registrationNumber" placeholder="Registration Number"> <br>
-                            <p id="error" style="color: red; display: none;">Invalid characters in registration number.</p>
+                            <p id="error" style="color: red; display: none;">Invalid characters in registration number.</p> 
                             <select required name="faculty">
                                 <option value="" selected>Select Faculty</option>
                                 <?php
@@ -161,6 +160,7 @@ if (isset($_POST['addStudent'])) {
                                 }
                                 ?>
                             </select> <br />
+
                             <select required name="course">
                                 <option value="" selected>Select Course</option>
                                 <?php
@@ -219,7 +219,7 @@ if (isset($_POST['addStudent'])) {
                 errorMessage.style.display = 'none';
             }
 
-            registrationNumberInput.value = sanitizedValue;
+            registrationNumberInput.value = sanitizedValue; 
         });
     </script>
 </body>

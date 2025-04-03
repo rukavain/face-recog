@@ -35,7 +35,7 @@ try {
                     AND a.dateMarked = latest.latest_date
             SET a.time_out = NOW()
             WHERE a.course = :courseCode
-            AND a.time_out IS NULL";
+            AND a.time_out IS NULL AND a.attendanceStatus='present'";
     
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':courseCode', $data['courseCode']);

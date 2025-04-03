@@ -22,7 +22,7 @@
 <script>
     function searchItems() {
         var input = document.getElementById('searchText').value.toLowerCase();
-        var rows = document.querySelectorAll('table tr');
+        var rows = document.querySelectorAll('table tbody tr');
 
         rows.forEach(function(row) {
             var cells = row.querySelectorAll('td');

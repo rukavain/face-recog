@@ -148,8 +148,10 @@ function updateOtherElements() {
       });
       detectedFaces = results.map((result) => result.label);
       markAttendance(detectedFaces);
+      
 
       results.forEach((result, i) => {
+
         const box = resizedDetections[i].detection.box;
         const drawBox = new faceapi.draw.DrawBox(box, {
           label: result,

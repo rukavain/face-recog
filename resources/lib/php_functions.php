@@ -144,32 +144,7 @@ function js_asset($links = [])
 }
 
 
-function get_employee_by_id($id) {
-
-    $employeeRows = [];
-
-    $query = "SELECT * FROM employee WHERE id= '$id'";
-    $result = fetch($query);
-
-    if($result){
-        foreach($result as $row){
-            $employeeRows = $row;
-        }
-    }
-
-    return $employeeRows;
-}
-
-function get_fullname($id){
-    global $pdo;
-    $stmt = $pdo->prepare("SELECT firstName, lastName from employee WHERE id=:id");
-    $stmt->bindParam(":id", $id);
-    $stmt->execute();
-    $result = $stmt->fetch();
-    return ucfirst($result["firstName"]). ' ' .ucfirst($result["lastName"]);
-}
-
-function filter_date($filter, $date, $date1, $id){
+function filter_date($filter, $date, $date1){
 
     $employees = [];
 
@@ -177,18 +152,21 @@ function filter_date($filter, $date, $date1, $id){
 
     //default query with no filter
     $query = "SELECT
-        etr.employee_id,
-        e.id,
-        e.firstName,
-        e.Lastname,
-        e.dateCreated,
-        etr.date_created,
-        DATE(etr.time_in) as date,
-        etr.time_in,
-        etr.time_out
-        FROM employee_time_records etr
-        LEFT JOIN employee e ON e.id = etr.employee_id
-        WHERE e.id = :employee_id";
+    s.Id,
+    s.firstName,
+    s.lastName,
+    s.dateRegistered,
+    a.date_created,
+    s.email,
+    s.faculty,
+    s.courseCode,
+    a.studentRegistrationNumber,
+    DATE(a.time_in) as date,
+    a.time_in as time_in,
+    a.time_out as time_out,
+    a.attendanceStatus
+    FROM tblstudents s
+    LEFT JOIN tblattendance a ON a.studentRegistrationNumber = s.registrationNumber";
 
 
     switch($filter){
@@ -212,7 +190,6 @@ function filter_date($filter, $date, $date1, $id){
 
     $stmt = $pdo->prepare($query);
 
-    $stmt->bindParam(":employee_id", $id);
     if(isset($startDate)) $stmt->bindParam(":startDate", $startDate);
     if(isset($endDate)) $stmt->bindParam(":endDate", $endDate);
 

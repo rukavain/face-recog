@@ -24,6 +24,9 @@ if (!empty($unitCode)) {
     }
 }
 
+$filter = $_GET["filter"] ?? null;
+$date = $_GET["start_date"] ?? date('Y-m-d');
+$date1 = $_GET["end_date"] ?? date('Y-m-d');
 
 ?>
 
@@ -73,26 +76,18 @@ if (!empty($unitCode)) {
             </form>
             <div style="display:flex; justify-content:space-between; align-items:center; padding: 20px 0px; ">
                 <button class="add" onclick="exportTableToExcel('attendaceTable', '<?php echo $unitCode ?>_on_<?php echo date('Y-m-d'); ?>','<?php echo $coursename ?>', '<?php echo $unitname ?>')">Export Attendance As Excel</button>
-                <div style="display:flex; gap:10px; justify-content:center; align-items:center;">
-                    <div style="padding:10px 14px; display:flex; gap:14px; justify-content:space-between; align-items:center; gap: 10px; flex-direction:row; min-width:max-content;">
-                        <div style=" display:flex; justify-content:space-between; align-items:center; gap: 10px;  min-width:max-content;">
-                            <p style="font-size:14px; margin-inline: 10px;">Start date:</p>
-                            <input style="cursor:pointer; border-style:none; padding:10px 14px; border-style: 1px solid gray; border-radius:10px; background-color:#dfe9f5;" type="date">
-                            <p style="font-size:14px; margin-inline: 10px;">Start date:</p>
-                            <input style="cursor:pointer; border-style:none; padding:10px 14px; border-style: 1px solid gray; border-radius:10px; background-color:#dfe9f5;" type="date">
-                        </div>
-                        <button style="padding:10px 14px; border-style: none; cursor:pointer; border-radius:10px; background-color:#90f689;">
-                            Filter
-                        </button>
-                    </div>
-                    <select style="max-height:max-content; padding:10px 14px; cursor:pointer; border-radius:10px; background-color:#dfe9f5;" name="date" id="date" class="dropdown">
-                        <option value="today">Today</option>
-                        <option value="lastweek">Last Week</option>
-                        <option value="lastmonth">Last Month</option>
-                        <option value="lastyear">Last Year</option>
-                        <option value="alltime">All Time</option>
-                    </select>
-                </div>
+                <form method="GET" id="filterForm" class="dropdown-form">
+                        <select name="filter" id="filter" class="dropdown" style="padding-block:12px;">
+                            <option value="day" <?= $filter === 'day' ? 'selected' : '' ?>>Day</option>
+                            <option value="week" <?= $filter === 'week' ? 'selected' : '' ?>>Week</option>
+                            <option value="month" <?= $filter === 'month' ? 'selected' : '' ?>>Month</option>
+                        </select>
+                        <label for="start_date" style="min-width:max-content;  font-size:14px; margin-inline: 10px;">Start Date:</label>
+                        <input type="date" name="start_date" id="start_date" value="<?= $date ?>" style="max-width:140px;">
+                        <label for="end_date" style="min-width:max-content; font-size:14px; margin-inline: 10px;">End Date:</label>
+                        <input type="date" name="end_date" id="end_date" value="<?= $date1 ?>" style="max-width:140px;">
+                        <button type="submit" id="filterButton" style="margin-inline: 10px; padding: 10px 20px; border-radius:4px; background-color: #4CAF50; color: white; border: none; cursor: pointer;">Filter</button>
+                    </form>
             </div>
             <div class="table-container">
                 <div class="title">
@@ -112,25 +107,11 @@ if (!empty($unitCode)) {
                         <tbody id="studentTableBody">
                             <?php
 
-                            $query = "SELECT
-                                s.registrationNumber as number,
-                                a.date_created as date,
-                                a.time_in as time_in,
-                                a.time_out as time_out,
-                                a.attendanceStatus as status
-                                FROM tblstudents s LEFT JOIN
-                                tblattendance a ON a.course = s.courseCode
-                                ";
-
-                            $stmt = $pdo->prepare($query);
-                            $stmt->execute();
-                            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-                            foreach ($result as $row):
+                            foreach (filter_date($filter, $date, $date1) as $row):
 
                             ?>
                                 <tr>
-                                    <td><?= $row["number"] ?></td>
+                                    <td><?= $row["studentRegistrationNumber"] ?></td>
                                     <td><?= gmdate("h:i:s A", strtotime($row["time_in"])) ?></td>
                                     <td><?= $row["time_out"] !== null ? gmdate("h:i:s A", strtotime($row["time_out"])) : "------------" ?></td>
 
@@ -153,7 +134,7 @@ if (!empty($unitCode)) {
 
                                     ?>
 
-                                    <td style="<?= $row["status"] === "present" ? 'color: green' : 'color:red' ?>"><?= ucfirst($row["status"]) ?></td>
+                                    <td style="<?= $row["attendanceStatus"] === "present" ? 'color: green' : 'color:red' ?>"><?= ucfirst($row["attendanceStatus"]) ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
