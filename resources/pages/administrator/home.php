@@ -1,4 +1,4 @@
-<?php 
+<?php
 $filter = $_GET["filter"] ?? null;
 $date = $_GET["start_date"] ?? date('Y-m-d');
 $date1 = $_GET["end_date"] ?? date('Y-m-d');
@@ -54,7 +54,7 @@ $date1 = $_GET["end_date"] ?? date('Y-m-d');
             </div>
 
             <div class="table-container">
-                <a href="manage-students" style="text-decoration:none;">
+                <a href="manage-employee" style="text-decoration:none;">
                     <div class="title">
                         <h2 class="section--title">Employee</h2>
                         <button class="add"><i class="ri-add-line"></i>Add Employee</button>
@@ -83,7 +83,7 @@ $date1 = $_GET["end_date"] ?? date('Y-m-d');
                             ?>
                                 <tr>
                                     <td><?= $row["studentRegistrationNumber"] ?></td>
-                                    <td><?= ucfirst($row["firstName"]) . ' '. ucfirst($row["lastName"]) ?></td>
+                                    <td><?= ucfirst($row["firstName"]) . ' ' . ucfirst($row["lastName"]) ?></td>
                                     <td><?= $row["faculty"] ?></td>
                                     <td><?= $row["courseCode"] ?></td>
                                     <td><?= ucfirst($row["email"]) ?></td>

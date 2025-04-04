@@ -14,15 +14,15 @@ try {
     // Get and validate JSON input
     $jsonInput = file_get_contents('php://input');
     $data = json_decode($jsonInput, true);
-    
+
     if (json_last_error() !== JSON_ERROR_NONE) {
         throw new Exception('Invalid JSON data received');
     }
-    
-    if (empty($data['courseCode'])) {
-        throw new Exception('Course code is required');
+
+    if (empty($data['courseCode']) || empty($data["unitCode"]) || empty($data["venue"])) {
+        throw new Exception('All fields is required to update the time out');
     }
-    
+
     // Update query for tblattendance
     $sql = "UPDATE tblattendance a
             INNER JOIN (
@@ -36,23 +36,22 @@ try {
             SET a.time_out = NOW()
             WHERE a.course = :courseCode
             AND a.time_out IS NULL AND a.attendanceStatus='present'";
-    
+
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':courseCode', $data['courseCode']);
-    
+
     if (!$stmt->execute()) {
         throw new Exception('Failed to execute update');
     }
-    
+
     $rowCount = $stmt->rowCount();
     $response = [
         'status' => 'success',
-        'message' => $rowCount > 0 
-            ? "Successfully updated time out for $rowCount students" 
+        'message' => $rowCount > 0
+            ? "Successfully updated time out for $rowCount employees"
             : "No unattended records found for this course",
         'updatedCount' => $rowCount
     ];
-
 } catch (PDOException $e) {
     http_response_code(500);
     $response['message'] = "Database error: " . $e->getMessage();
@@ -62,7 +61,6 @@ try {
     $response['message'] = $e->getMessage();
 }
 
-// Ensure clean output
 ob_clean();
 echo json_encode($response);
 exit;

@@ -138,7 +138,7 @@ if (isset($_POST['addStudent'])) {
                 <form method="post">
                     <div style="display:flex; justify-content:space-around;">
                         <div class="form-title">
-                            <p>Add Student</p>
+                            <p>Add Employee</p>
                         </div>
                         <div>
                             <span class="close">&times;</span>
@@ -150,7 +150,7 @@ if (isset($_POST['addStudent'])) {
                             <input type="text" name="lastName" " placeholder=" Last Name">
                             <input type="email" name="email" placeholder="Email Address">
                             <input type="text" required id="registrationNumber" name="registrationNumber" placeholder="Registration Number"> <br>
-                            <p id="error" style="color: red; display: none;">Invalid characters in registration number.</p> 
+                            <p id="error" style="color: red; display: none;">Invalid characters in registration number.</p>
                             <select required name="faculty">
                                 <option value="" selected>Select Faculty</option>
                                 <?php
@@ -173,7 +173,7 @@ if (isset($_POST['addStudent'])) {
                         </div>
                         <div>
                             <div class="form-title-image">
-                                <p>Take Student Pictures
+                                <p>Take Employee Pictures
                                 <p>
                             </div>
                             <div id="open_camera" class="image-box" onclick="takeMultipleImages()">
@@ -189,7 +189,7 @@ if (isset($_POST['addStudent'])) {
                         </div>
                     </div>
 
-                    <input type="submit" class="btn-submit" value="Save Student" name="addStudent" />
+                    <input type="submit" class="btn-submit" value="Save Employee" name="addStudent" />
 
 
                 </form>
@@ -219,7 +219,7 @@ if (isset($_POST['addStudent'])) {
                 errorMessage.style.display = 'none';
             }
 
-            registrationNumberInput.value = sanitizedValue; 
+            registrationNumberInput.value = sanitizedValue;
         });
     </script>
 </body>

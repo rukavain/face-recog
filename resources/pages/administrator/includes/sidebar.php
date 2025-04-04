@@ -7,7 +7,14 @@
             </a>
         </li>
         <li>
-        <a href="manage-students">
+            <a href="face-recog">
+                <span class="icon icon-1"><i class="ri-eye-line"></i></span>
+                <span class="sidebar--item">Face recognition</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="manage-employee">
                 <span class="icon icon-1"><i class="ri-user-line"></i></span>
                 <span class="sidebar--item">Manage Employee</span>
             </a>
